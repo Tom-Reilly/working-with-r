@@ -11,11 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Foreword
 
-This is a working document that will be added to and amended as methods are used and intriciacies of working with SCOTS and the OSE are dealt with
+This is a working document that will be added to and amended as methods are used and intriciacies of working with SCOTS and the OSE are dealt with.
 
 ## Testing
 
 There are a wide array of options when it comes to testing packages in R. Two of the main ones looked at here are `tinytest` and `testthat`. They are very similar in their notation, both using expectations to drive their testing. `testthat` is the most popular testing package, but the benefit of using `tinytest` is that there are fewer package dependencies, something which is of benefit when working on the OSE where package downloads are often restricted. There will be more documentation out there on `testthat` so it may be preferable to use that as long as the dependencies don't hold you back. With the growing problems with working with R packages on the OSE investigating the `tinyverse`, which `tinytest` is a part of, will be worthwhile as it's main aim is to reduce package dependencies.
+
+When developing a Shiny application it is easier to implement a testing suite when the app has been packaged. One simple method for creating a packaged Shiny app is to use the `golem` package. Within the setup you will be given the option to setup the relevant testing directories, this simplifies the process. `golem` uses the `testthat` in its testing setup.
 
 #### Working with `tinytest`
 
@@ -27,9 +29,15 @@ There are currently 16 different expectations that can be tested with `tinytest`
 
 #### Working with `testthat`
 
+`testthat` works in the same way as `tinytest`, utilising expectations, like the one shown above. `testthat` offers a wider array of testing functions and expectations, details can be found here: https://testthat.r-lib.org/reference/. 
+
+#### `shinytest`
+
+Just to note another testing package; this one, as the name suggests, is specifically useful for Shiny apps. `shinytest` provides a simulation of a Shiny app that you can control in order to automate testing. `shinytest` uses a snapshot-based testing strategy: the first time it runs a set of tests for an application, it performs some scripted interactions with the app and takes one or more snapshots of the application’s state. Subsequent runs perform the same scripted interactions then compare the results; you’ll get an error if they’re different.
+
 ### Testing Coverage
 
-One can check how much of their package is covered by testing. The most common package to achieve this is the covr package. It should be compatible with any testing package, including `testthat` and `tinytest`. Testing coverage can be automated using Github Actions as such `usethis::use_github_action("test-coverage")` or can be run locally using `report()`.
+One can check how much of their package is covered by testing. The most common package to achieve this is the `covr` package. It should be compatible with any testing package, including `testthat` and `tinytest`. Testing coverage can be automated using Github Actions as such `usethis::use_github_action("test-coverage")` or can be run locally using `report()`.
 
 ## Deployment
 
@@ -43,7 +51,7 @@ Docker is a program that allows you to manipulate (launch and stop) multiple ope
 
 To use Docker one must install Docker Desktop, this requires system admin privileges on the OSE. It is unclear whether this is feasible on SCOTS. The software requires a decent bit of space, so may be an issue when installing on the OSE where space is limited.
 
-The Rocker project (https://rocker-project.org/) is an R for Docker project that has created a number of preset images for use with R. rocker/shiny and rocker/shiny-verse are preset Docker images for deploying Shiny apps, the only difference being that tocker/shiny-verse also has the `tidyverse` packages installed. Unfortunately it is not feasible to simply run rocker/shiny to deploy Shiny Apps without setting the proxy. Further details on how to set this up can be found here: https://rocker-project.org/use/networking.html.
+The Rocker project (https://rocker-project.org/) is an R for Docker project that has created a number of preset images for use with R. rocker/shiny and rocker/shiny-verse are preset Docker images for deploying Shiny apps, the only difference being that rocker/shiny-verse also has the `tidyverse` packages installed. Unfortunately it is not feasible to simply run rocker/shiny to deploy Shiny Apps without setting the proxy. Further details on how to set this up can be found here: https://rocker-project.org/use/networking.html.
 
 ### Github Actions
 
